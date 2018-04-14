@@ -137,6 +137,7 @@ class main {
                 points[i].x = 800 * Math.sin(count * i);
             }
         }.bind(this));
+        
     }
 
 
