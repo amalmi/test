@@ -15,10 +15,10 @@ class main {
 
 // tiling - takes whole screen, anchor and position are the same as of sprite surface
 // different tint, to see the black part
-        var tiling = new PIXI.projection.TilingSprite2d(new PIXI.Texture.fromImage("bkg.jpg"), this.app.screen.width, this.app.screen.height);
-        tiling.position.set(this.app.screen.width / 2, this.app.screen.height);
-        tiling.anchor.set(0.5, 1.0);
-        tiling.tint = 0x808080;
+        this.tiling = new PIXI.projection.TilingSprite2d(new PIXI.Texture.fromImage("bkg.jpg"), this.app.screen.width, this.app.screen.height);
+        this.tiling.position.set(this.app.screen.width / 2, this.app.screen.height);
+        this.tiling.anchor.set(0.5, 1.0);
+        this.tiling.tint = 0x808080;
 
         var surface = new PIXI.projection.Sprite2d(new PIXI.Texture.fromImage("bkg.jpg"));
         surface.anchor.set(0.5, 1.0);
@@ -36,7 +36,7 @@ class main {
         this.bunny = new PIXI.projection.Sprite2d(PIXI.Texture.fromImage('flowerTop.png'));
         this.bunny.anchor.set(0.5, 1.0);
 
-        this.app.stage.addChild(tiling);
+        this.app.stage.addChild(this.tiling);
         this.app.stage.addChild(container);
         this.app.stage.addChild(squareFar);
         container.addChild(surface);
@@ -55,11 +55,11 @@ class main {
             pos.x = -pos.x;
             container.proj.setAxisY(pos, -squareFar.factor);
 
-            tiling.tileScale.copy(surface.scale);
+            this.tiling.tileScale.copy(surface.scale);
             // dont overflow tilePosition, shaders will have less precision
-            tiling.tilePosition.x = (tiling.tilePosition.x + delta) % tiling.texture.width;
+            this.tiling.tilePosition.x = (this.tiling.tilePosition.x + delta) % this.tiling.texture.width;
             //sync container proj and tiling inside proj
-            tiling.tileProj.setAxisY(pos, -squareFar.factor);
+            this.tiling.tileProj.setAxisY(pos, -squareFar.factor);
 
             this.squarePlane.proj.affine = this.squarePlane.factor ?
                 PIXI.projection.AFFINE.AXIS_X : PIXI.projection.AFFINE.NONE;
