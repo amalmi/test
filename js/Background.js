@@ -1,7 +1,6 @@
-class main {
-    constructor() {
-        this.app = new PIXI.Application(1280, 720);
-        document.body.appendChild(this.app.view);
+class Background {
+    constructor(app) {
+        this.app = app;
 
         var squareFar = new PIXI.Sprite(PIXI.Texture.WHITE);
         squareFar.tint = 0xff0000;
@@ -15,10 +14,10 @@ class main {
 
 // tiling - takes whole screen, anchor and position are the same as of sprite surface
 // different tint, to see the black part
-        var tiling = new PIXI.projection.TilingSprite2d(new PIXI.Texture.fromImage("bkg.jpg"), this.app.screen.width, this.app.screen.height);
-        tiling.position.set(this.app.screen.width / 2, this.app.screen.height);
-        tiling.anchor.set(0.5, 1.0);
-        tiling.tint = 0x808080;
+        this.tiling = new PIXI.projection.TilingSprite2d(new PIXI.Texture.fromImage("bkg.jpg"), this.app.screen.width, this.app.screen.height);
+        this.tiling.position.set(this.app.screen.width / 2, this.app.screen.height);
+        this.tiling.anchor.set(0.5, 1.0);
+        this.tiling.tint = 0x808080;
 
         var surface = new PIXI.projection.Sprite2d(new PIXI.Texture.fromImage("bkg.jpg"));
         surface.anchor.set(0.5, 1.0);
@@ -36,7 +35,7 @@ class main {
         this.bunny = new PIXI.projection.Sprite2d(PIXI.Texture.fromImage('flowerTop.png'));
         this.bunny.anchor.set(0.5, 1.0);
 
-        this.app.stage.addChild(tiling);
+        this.app.stage.addChild(this.tiling);
         this.app.stage.addChild(container);
         this.app.stage.addChild(squareFar);
         container.addChild(surface);
@@ -55,11 +54,11 @@ class main {
             pos.x = -pos.x;
             container.proj.setAxisY(pos, -squareFar.factor);
 
-            tiling.tileScale.copy(surface.scale);
+            this.tiling.tileScale.copy(surface.scale);
             // dont overflow tilePosition, shaders will have less precision
-            tiling.tilePosition.x = (tiling.tilePosition.x + delta) % tiling.texture.width;
+            this.tiling.tilePosition.x = (this.tiling.tilePosition.x + delta) % this.tiling.texture.width;
             //sync container proj and tiling inside proj
-            tiling.tileProj.setAxisY(pos, -squareFar.factor);
+            this.tiling.tileProj.setAxisY(pos, -squareFar.factor);
 
             this.squarePlane.proj.affine = this.squarePlane.factor ?
                 PIXI.projection.AFFINE.AXIS_X : PIXI.projection.AFFINE.NONE;
@@ -69,81 +68,7 @@ class main {
         this.addInteraction(this.squarePlane);
 //move the bunny too!
         this.addInteraction(this.bunny);
-
-
-
-        //
-        //
-        //
-        //
-
-        let numPoints = 100;
-        /*
-        var tilingSprite = new PIXI.extras.TilingSprite(
-            texture,
-            this.app.screen.width,
-            this.app.screen.height
-        );
-
-        this.app.stage.addChild(tilingSprite);
-        */
-
-        var count = 0;
-
-// build a rope!
-        var ropeLength = 550 / numPoints;
-
-        var points = [];
-
-        for (var i = 0; i < numPoints + 1; i++) {
-            points.push(new PIXI.Point(i * ropeLength, 0));
-        }
-
-
-        var strip = new PIXI.mesh.Rope(PIXI.Texture.fromImage('snake.png'), points);
-
-
-
-
-//strip.x = -459;
-
-        var snakeContainer = new PIXI.Container();
-        snakeContainer.x = 1280 / 2;
-        snakeContainer.y = 720 / 2 + 800;
-
-        snakeContainer.pivot.set(0.5, 0.5);
-
-        snakeContainer.scale.set(1);
-        this.app.stage.addChild(snakeContainer);
-
-
-        snakeContainer.addChild(strip);
-
-        this.app.ticker.add(function() {
-
-//    count += 0.01;
-            count = (Math.PI * 2) / numPoints / 6;
-            snakeContainer.rotation -=0.005;
-            // make the snake
-            /*
-            for (var i = 0; i < points.length; i++) {
-                points[i].y = Math.sin((i * 0.3) + count) * 250;
-                points[i].x = i * ropeLength + Math.cos((i * 0.1) + count) * 250;
-            }
-            */
-
-            for(let i = 0; i < points.length; i++){
-                points[i].y = 800 * Math.cos(count * i);
-                points[i].x = 800 * Math.sin(count * i);
-            }
-        }.bind(this));
-        
     }
-
-
-
-
-
 
 // === CLICKS AND SNAP ===
 
