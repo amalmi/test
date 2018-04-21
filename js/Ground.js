@@ -3,6 +3,7 @@ class Ground {
         this.app = app;
         let numPoints =20;
         let xWidth = 1280 * 2;
+        this.speed = 0;
 
         this.texture = PIXI.Texture.fromImage('p2.jpeg');
 
@@ -49,7 +50,7 @@ class Ground {
             this.app.renderer.render(this.tilingSprite, this.renderTexture, false);
 
 //            this.tilingSprite.tilePosition.x += 1;
-            this.tilingSprite.tilePosition.x -= 4;
+            this.tilingSprite.tilePosition.x -= this.speed;
 
             // make the snake
             for (var i = 0; i < points.length; i++) {
@@ -62,5 +63,8 @@ class Ground {
                 points[i].x = 256 * Math.sin(count * i) * 4;
             } */
         }.bind(this));
+    }
+    onChange(value) {
+        this.speed = value
     }
 }
