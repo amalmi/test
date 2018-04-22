@@ -10,6 +10,10 @@ class Ground {
         this.speed = 0;
         this.scale = 1;
 
+        this.hero = new Hero(this.app);
+
+
+
         this.texture = PIXI.Texture.fromImage('p2.jpeg');
 
 //        this.renderTexture = new PIXI.RenderTexture(this.texture);
@@ -44,12 +48,27 @@ class Ground {
             for (var i = 0; i < this.points.length; i++) {
                 this.points[i].y = Math.sin((i * (Math.PI / this.numPoints) + count)) * this.ropeLength * this.curve;
                 this.points[i].x = i * this.ropeLength;
+
             }
+            let p = (this.points.length / 2 + this.hero.xPos).toFixed(0);
+            this.hero.x = this.points[p].x * this.scale + this.snakeContainer.x;
+            this.hero.y = this.points[p].y * this.scale + this.snakeContainer.y - (this.heightTexture / 2) * this.scale;
+            this.hero.scale.set(this.scale);
+/*
+            if (this.hero.xPos > 0) {
+                this.hero.rotation = Math.sin(p *  (Math.PI / this.numPoints) + count);
+            } else {
+                this.hero.rotation = Math.sin(p *  -(Math.PI / this.numPoints) + count) ;
+            }
+            */
+            this.hero.rotation = Math.sin(p *  -(Math.PI / this.numPoints) + count) ;
+//            this.hero.rotation = Math.sin((p * ((Math.PI *(this.curveAngle -0.3)) / this.numPoints))) ;
 /*
             for(let i = 0; i < points.length; i++){
                 points[i].y = 256 * Math.cos(count * i);
                 points[i].x = 256 * Math.sin(count * i) * 4;
             } */
+            this.hero.update();
         }.bind(this));
     }
 
@@ -59,6 +78,7 @@ class Ground {
             //        this.snakeContainer.pivot.set(0.5, 0.5);
             //        this.snakeContainer.x = -this.app.width / 2;
             this.snakeContainer.y = this.app.renderer.height * 2;
+            this.app.stage.addChild(this.hero);
             this.app.stage.addChild(this.snakeContainer);
         }
         // build a rope!
@@ -80,6 +100,7 @@ class Ground {
         this.scale = scale ? scale : this.scale;
         this.numPoints = numPoints ? numPoints :this.numPoints;
         this.curve = curve ? curve * this.numPoints: this.curve;
+        this.curveAngle = curve;
         this.sinePos = sinePos ? sinePos : this.sinePos;
         if (numPoints) {
             this.makeRope();

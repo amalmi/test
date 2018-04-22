@@ -40,7 +40,7 @@ class Background {
         this.app.stage.addChild(squareFar);
         container.addChild(surface);
         container.addChild(this.squarePlane);
-        this.squarePlane.addChild(this.bunny);
+//        this.squarePlane.addChild(this.bunny);
 
 // Listen for animate update
         this.app.ticker.add(function (delta) {

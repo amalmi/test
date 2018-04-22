@@ -8,13 +8,13 @@ class Main {
         const ground = new Ground(this.app);
 
         let obj = {
-            speed: 2.5,
-            scale: 1,
-            curve: 0.3,
-            x: -644,
-            y: 1320,
-            sinePos: 1,
-            numPoints: 512
+            speed: 5,
+            scale: 0.375,
+            curve: 0.231,
+            x: 73,
+            y: 1273,
+            sinePos: 1.25,
+            numPoints: 1024
         };
 
         ground.onChange(obj);
@@ -51,7 +51,7 @@ class Main {
                 ground.onChange({y: value});
             }.bind(this));
 
-        gui.add(obj, 'sinePos').min(1).max(2).step(0.001)
+        gui.add(obj, 'sinePos').min(-2).max(2).step(0.001)
             .onChange(function(value) {
                 // Fires on every change, drag, keypress, etc.
                 ground.onChange({sinePos: value});
