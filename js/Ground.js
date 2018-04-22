@@ -61,7 +61,7 @@ class Ground {
                 this.hero.rotation = Math.sin(p *  -(Math.PI / this.numPoints) + count) ;
             }
             */
-            this.hero.rotation = Math.sin(p *  -(Math.PI / this.numPoints) + count) ;
+            this.hero.rotation = Math.sin(p *  -(Math.PI / this.numPoints) + count) + this.sinePos - Math.PI/2;
 //            this.hero.rotation = Math.sin((p * ((Math.PI *(this.curveAngle -0.3)) / this.numPoints))) ;
 /*
             for(let i = 0; i < points.length; i++){
@@ -78,8 +78,8 @@ class Ground {
             //        this.snakeContainer.pivot.set(0.5, 0.5);
             //        this.snakeContainer.x = -this.app.width / 2;
             this.snakeContainer.y = this.app.renderer.height * 2;
-            this.app.stage.addChild(this.hero);
             this.app.stage.addChild(this.snakeContainer);
+            this.app.stage.addChild(this.hero);
         }
         // build a rope!
         this.ropeLength = (this.widthTexture)/ this.numPoints;
