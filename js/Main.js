@@ -10,11 +10,11 @@ class Main {
         let obj = {
             speed: 2.5,
             scale: 1,
-            curve: 33,
+            curve: 0.3,
             x: -644,
             y: 1320,
             sinePos: 1,
-            numPoints: 128
+            numPoints: 512
         };
 
         ground.onChange(obj);
@@ -33,7 +33,7 @@ class Main {
                 ground.onChange({scale: value});
             }.bind(this));
 
-        gui.add(obj, 'curve').min(0).max(64).step(1)
+        gui.add(obj, 'curve').min(-1).max(1).step(0.001)
             .onChange(function(value) {
                 // Fires on every change, drag, keypress, etc.
                 ground.onChange({curve: value});
@@ -45,7 +45,7 @@ class Main {
                 ground.onChange({x: value});
             }.bind(this));
 
-        gui.add(obj, 'y').min(-4000).max(2000).step(1)
+        gui.add(obj, 'y').min(-4000).max(4000).step(1)
             .onChange(function(value) {
                 // Fires on every change, drag, keypress, etc.
                 ground.onChange({y: value});
@@ -57,7 +57,7 @@ class Main {
                 ground.onChange({sinePos: value});
             }.bind(this));
 
-        gui.add(obj, 'numPoints').min(32).max(256).step(1)
+        gui.add(obj, 'numPoints').min(32).max(1024).step(1)
             .onChange(function(value) {
                 // Fires on every change, drag, keypress, etc.
                 ground.onChange({numPoints: value});

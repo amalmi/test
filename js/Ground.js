@@ -78,9 +78,9 @@ class Ground {
     onChange({speed, scale, curve, x, y, sinePos, numPoints}) {
         this.speed = speed ? speed : this.speed;
         this.scale = scale ? scale : this.scale;
-        this.curve = curve ? curve : this.curve;
-        this.sinePos = sinePos ? sinePos : this.sinePos;
         this.numPoints = numPoints ? numPoints :this.numPoints;
+        this.curve = curve ? curve * this.numPoints: this.curve;
+        this.sinePos = sinePos ? sinePos : this.sinePos;
         if (numPoints) {
             this.makeRope();
         }
