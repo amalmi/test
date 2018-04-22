@@ -1,10 +1,11 @@
 class Ground {
     constructor(app) {
         this.app = app;
-        let numPoints =20;
+        this.numPoints = 32;
         this.widthTexture = 1280 * 2;
         this.heightTexture = 256;
         this.curve = 1000;
+        this.sinePos = 1.1;
 
         this.speed = 0;
         this.scale = 1;
@@ -29,29 +30,9 @@ class Ground {
 
         let count = 0;
 
-        // build a rope!
-        let ropeLength = (this.widthTexture)/ numPoints;
-        let points = [];
-        for (let i = 0; i < numPoints + 1; i++) {
-            points.push(new PIXI.Point(i * ropeLength, 0));
-        }
-        this.strip = new PIXI.mesh.Rope(this.renderTexture, points);
-        this.strip.pivot.set(0.5, 0.5);
-        this.strip.x =  this.scale * this.widthTexture / 2 - this.widthTexture / 2;
-        this.strip.y = -this.scale * this.heightTexture - this.heightTexture / 2;
-
-
-        //strip.x = -459;
-
-        this.snakeContainer = new PIXI.Container();
-//        this.snakeContainer.pivot.set(0.5, 0.5);
-//        this.snakeContainer.x = -this.app.width / 2;
-        this.snakeContainer.y = this.app.renderer.height * 2;
-        this.app.stage.addChild(this.snakeContainer);
-        this.snakeContainer.addChild(this.strip);
 
         this.app.ticker.add(function() {
-            count = Math.PI * 1.35;
+            count = Math.PI * this.sinePos;
 //            count +=0.01;
 
             this.app.renderer.render(this.tilingSprite, this.renderTexture, false);
@@ -60,9 +41,9 @@ class Ground {
             this.tilingSprite.tilePosition.x -= this.speed;
 
             // make the snake
-            for (var i = 0; i < points.length; i++) {
-                points[i].y = Math.sin((i * 0.1) + count) * this.curve ;
-                points[i].x = i * ropeLength;
+            for (var i = 0; i < this.points.length; i++) {
+                this.points[i].y = Math.sin((i * (Math.PI / this.numPoints) + count)) * this.ropeLength * this.curve;
+                this.points[i].x = i * this.ropeLength;
             }
 /*
             for(let i = 0; i < points.length; i++){
@@ -71,16 +52,45 @@ class Ground {
             } */
         }.bind(this));
     }
-    onChange({speed, scale, curve, x, y}) {
+
+    makeRope() {
+        if (!this.snakeContainer) {
+            this.snakeContainer = new PIXI.Container();
+            //        this.snakeContainer.pivot.set(0.5, 0.5);
+            //        this.snakeContainer.x = -this.app.width / 2;
+            this.snakeContainer.y = this.app.renderer.height * 2;
+            this.app.stage.addChild(this.snakeContainer);
+        }
+        // build a rope!
+        this.ropeLength = (this.widthTexture)/ this.numPoints;
+        this.points = [];
+        for (let i = 0; i < this.numPoints + 1; i++) {
+            this.points.push(new PIXI.Point(i * this.ropeLength, 0));
+        }
+
+        this.strip = new PIXI.mesh.Rope(this.renderTexture, this.points);
+//        this.strip.pivot.set(0.5, 0.5);
+
+        this.snakeContainer.removeChildren();
+        this.snakeContainer.addChild(this.strip);
+    }
+
+    onChange({speed, scale, curve, x, y, sinePos, numPoints}) {
         this.speed = speed ? speed : this.speed;
         this.scale = scale ? scale : this.scale;
         this.curve = curve ? curve : this.curve;
-        this.strip.x = x ? x : this.strip.x;
-        this.strip.y = y ? y : this.strip.y;
+        this.sinePos = sinePos ? sinePos : this.sinePos;
+        this.numPoints = numPoints ? numPoints :this.numPoints;
+        if (numPoints) {
+            this.makeRope();
+        }
+
+        this.snakeContainer.x = x ? x * this.scale: this.snakeContainer.x;
+        this.snakeContainer.y = y ? y * this.scale: this.snakeContainer.y;
 
         if (scale) {
 //            this.snakeContainer.scale.set(this.scale);
-            this.strip.scale.set(this.scale);
+            this.snakeContainer.scale.set(this.scale);
 //            this.snakeContainer.y = this.app.renderer.height / 2;
 //            this.snakeContainer.x = this.app.renderer.width * this.scale;
 
@@ -89,4 +99,6 @@ class Ground {
 
         }
     }
+
+
 }

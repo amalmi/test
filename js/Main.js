@@ -8,11 +8,13 @@ class Main {
         const ground = new Ground(this.app);
 
         let obj = {
-            speed: 0.0,
+            speed: 2.5,
             scale: 1,
-            curve: 1000,
-            x: 0,
-            y: 256
+            curve: 33,
+            x: -644,
+            y: 1320,
+            sinePos: 1,
+            numPoints: 128
         };
 
         ground.onChange(obj);
@@ -25,13 +27,13 @@ class Main {
                 ground.onChange({speed: value});
             }.bind(this));
 
-        gui.add(obj, 'scale').min(0.5).max(2).step(0.025)
+        gui.add(obj, 'scale').min(0.2).max(2).step(0.025)
             .onChange(function(value) {
                 // Fires on every change, drag, keypress, etc.
                 ground.onChange({scale: value});
             }.bind(this));
 
-        gui.add(obj, 'curve').min(0).max(2000).step(1)
+        gui.add(obj, 'curve').min(0).max(64).step(1)
             .onChange(function(value) {
                 // Fires on every change, drag, keypress, etc.
                 ground.onChange({curve: value});
@@ -43,11 +45,22 @@ class Main {
                 ground.onChange({x: value});
             }.bind(this));
 
-        gui.add(obj, 'y').min(-2000).max(2000).step(1)
+        gui.add(obj, 'y').min(-4000).max(2000).step(1)
             .onChange(function(value) {
                 // Fires on every change, drag, keypress, etc.
                 ground.onChange({y: value});
             }.bind(this));
 
+        gui.add(obj, 'sinePos').min(1).max(2).step(0.001)
+            .onChange(function(value) {
+                // Fires on every change, drag, keypress, etc.
+                ground.onChange({sinePos: value});
+            }.bind(this));
+
+        gui.add(obj, 'numPoints').min(32).max(256).step(1)
+            .onChange(function(value) {
+                // Fires on every change, drag, keypress, etc.
+                ground.onChange({numPoints: value});
+            }.bind(this));
     }
 }
