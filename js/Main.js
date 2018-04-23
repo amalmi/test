@@ -4,17 +4,20 @@ class Main {
 
         this.app = new PIXI.Application(1280, 720, options);
         document.body.appendChild(this.app.view);
-        const background = new Background(this.app);
+//        const background = new Background(this.app);
+        const backroundScroll = new BackgroundScroll(this.app);
         const ground = new Ground(this.app);
 
         let obj = {
-            speed: 5,
-            scale: 0.375,
-            curve: 0.231,
-            x: 73,
-            y: 1273,
-            sinePos: 1.25,
-            numPoints: 1024
+            speed: 6,
+            scale: 1,
+            curve: -0.267,
+            x: -623,
+            y: 1284,
+            sinePos: 0.015,
+            numPoints: 1024,
+            width: 1280 *2,
+            height: 256
         };
 
         ground.onChange(obj);
@@ -25,6 +28,7 @@ class Main {
             .onChange(function(value) {
                 // Fires on every change, drag, keypress, etc.
                 ground.onChange({speed: value});
+                backroundScroll.onChange({speed: value});
             }.bind(this));
 
         gui.add(obj, 'scale').min(0.2).max(2).step(0.025)
@@ -51,7 +55,7 @@ class Main {
                 ground.onChange({y: value});
             }.bind(this));
 
-        gui.add(obj, 'sinePos').min(-2).max(2).step(0.001)
+        gui.add(obj, 'sinePos').min(-6).max(6).step(0.001)
             .onChange(function(value) {
                 // Fires on every change, drag, keypress, etc.
                 ground.onChange({sinePos: value});
@@ -62,5 +66,18 @@ class Main {
                 // Fires on every change, drag, keypress, etc.
                 ground.onChange({numPoints: value});
             }.bind(this));
+
+        gui.add(obj, 'width').min(64).max(256 * 20).step(1)
+            .onChange(function(value) {
+                // Fires on every change, drag, keypress, etc.
+                ground.onChange({width: value});
+            }.bind(this));
+
+        gui.add(obj, 'height').min(64).max(256 * 20).step(1)
+            .onChange(function(value) {
+                // Fires on every change, drag, keypress, etc.
+                ground.onChange({height: value});
+            }.bind(this));
+
     }
 }

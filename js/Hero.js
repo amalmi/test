@@ -35,10 +35,10 @@ class Hero extends PIXI.Sprite {
 
     update() {
         if (this.left.isDown) {
-            this.xPos--;
+            this.xPos -= 8;
         }
         if (this.right.isDown) {
-            this.xPos++;
+            this.xPos += 8;
         }
     }
 
