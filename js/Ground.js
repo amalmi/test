@@ -41,18 +41,17 @@ class Ground {
             let p = (this.points.length / 2 + this.hero.xPos);
                 p = parseInt(p);
             if (Math.sign(this.curve) < 0) {
-                this.hero.x =  Math.sign(this.curve) * (this.heightTexture / 2 ) * Math.cos((p * (Math.PI / this.numPoints)) + this.sinePos);
-                this.hero.y =  Math.sign(this.curve) * (this.heightTexture / 2 ) * Math.sin((p * (Math.PI / this.numPoints)) + this.sinePos);
+                this.hero.x =  Math.sign(this.curve) * (this.heightTexture / 2 ) * Math.cos((p * (Math.PI / this.numPoints)) );
+                this.hero.y =  Math.sign(this.curve) * (this.heightTexture / 2 ) * Math.sin((p * (Math.PI / this.numPoints)) );
             } else {
-                this.hero.x = (this.heightTexture / 2 ) * Math.cos((p * (Math.PI / this.numPoints)) + this.sinePos);
-                this.hero.y =  -(this.heightTexture / 2 ) * Math.sin((p * (Math.PI / this.numPoints)) + this.sinePos);
+                this.hero.x = (this.heightTexture / 2 ) * Math.cos((p * (Math.PI / this.numPoints)));
+                this.hero.y =  -(this.heightTexture / 2 ) * Math.sin((p * (Math.PI / this.numPoints)));
             }
-            this.hero.y += Math.sin((p * (Math.PI / this.numPoints) + this.sinePos)) * this.ropeLength * this.curve;
-            this.hero.x += p * this.ropeLength;
-            var c = this.ropeLength / (this.ropeLength * this.curve);
+            this.hero.y += this.points[p].y;//Math.sin((p * (Math.PI / this.numPoints) + this.sinePos)) * this.ropeLength * this.curve;
+            this.hero.x += this.points[p].x;//p * this.ropeLength;
 
 //            this.hero.rotation = -Math.cos( ( p * (Math.PI / this.numPoints)) + this.sinePos) ;
-            this.hero.rotation = -Math.PI/2 + Math.atan2((this.points[p].y - this.hero.y)/2, (this.points[p].x - this.hero.x)/2);
+            this.hero.rotation = -Math.PI/2 + Math.atan2((this.points[p].y - this.hero.y), (this.points[p].x - this.hero.x));
 //            this.hero.rotation = Math.PI* 2 - Math.atan2(this.hero.y/2-256*this.curve, this.hero.x/2-2560*this.curve);
 
             this.hero.update();
