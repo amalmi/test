@@ -80,7 +80,7 @@ class Main {
             }.bind(this));
 
     }
-
+/*
     FizzyText  () {
         this.message = 'dat.gui';
         this.speed = 0.8;
@@ -88,4 +88,5 @@ class Main {
         this.explode = function() { ... };
         // Define render logic ...
     }
+    */
 }

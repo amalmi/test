@@ -40,16 +40,20 @@ class Ground {
             }
             let p = (this.points.length / 2 + this.hero.xPos);
                 p = parseInt(p);
-//            this.hero.x = this.points[p].x * this.scale + this.snakeContainer.x - this.scale * (this.heightTexture / 2 ) * Math.cos((p * (Math.PI / this.numPoints)) + this.sinePos);
-//            this.hero.y = this.points[p].y * this.scale + this.snakeContainer.y - this.scale * (this.heightTexture / 2 ) * Math.sin((p * (Math.PI / this.numPoints)) + this.sinePos);
-            this.hero.y = Math.sin((p * (Math.PI / this.numPoints) + this.sinePos)) * this.ropeLength * this.curve;
-            this.hero.x = p * this.ropeLength;
-            console.log("hero: x ")
+            if (Math.sign(this.curve) < 0) {
+                this.hero.x =  Math.sign(this.curve) * (this.heightTexture / 2 ) * Math.cos((p * (Math.PI / this.numPoints)) + this.sinePos);
+                this.hero.y =  Math.sign(this.curve) * (this.heightTexture / 2 ) * Math.sin((p * (Math.PI / this.numPoints)) + this.sinePos);
+            } else {
+                this.hero.x = (this.heightTexture / 2 ) * Math.cos((p * (Math.PI / this.numPoints)) + this.sinePos);
+                this.hero.y =  -(this.heightTexture / 2 ) * Math.sin((p * (Math.PI / this.numPoints)) + this.sinePos);
+            }
+            this.hero.y += Math.sin((p * (Math.PI / this.numPoints) + this.sinePos)) * this.ropeLength * this.curve;
+            this.hero.x += p * this.ropeLength;
             var c = this.ropeLength / (this.ropeLength * this.curve);
 
 //            this.hero.rotation = -Math.cos( ( p * (Math.PI / this.numPoints)) + this.sinePos) ;
-            this.hero.rotation = Math.atan2(this.points[p].x, this.points[p].y);
-//            this.hero.scale.set(this.scale, this.scale);
+            this.hero.rotation = -Math.PI/2 + Math.atan2((this.points[p].y - this.hero.y)/2, (this.points[p].x - this.hero.x)/2);
+//            this.hero.rotation = Math.PI* 2 - Math.atan2(this.hero.y/2-256*this.curve, this.hero.x/2-2560*this.curve);
 
             this.hero.update();
 
