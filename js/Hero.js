@@ -7,6 +7,7 @@ class Hero extends PIXI.Sprite {
 
         this.xPos = 0;
         this.yPos = 0;
+        
 
         //Capture the keyboard arrow keys
         this.left = this.keyboard(37);
