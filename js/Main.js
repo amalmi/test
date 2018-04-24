@@ -1,6 +1,6 @@
 class Main {
     constructor() {
-        let options = {resolution: 1, roundPixels: false,backgroundColor: 0x000000,legacy: false, antialias:true};
+        let options = {resolution: 1, roundPixels: true,backgroundColor: 0x000000,legacy: false, antialias:true};
 
         this.app = new PIXI.Application(1280, 720, options);
         document.body.appendChild(this.app.view);
@@ -23,8 +23,8 @@ class Main {
         ground.onChange(obj);
 
         let gui = new dat.gui.GUI();
-//        gui.remember(obj);
-        gui.add(obj, 'speed').min(-10).max(10).step(0.25)
+        gui.remember(obj);
+        gui.add(obj, 'speed').min(-100).max(100).step(0.25)
             .onChange(function(value) {
                 // Fires on every change, drag, keypress, etc.
                 ground.onChange({speed: value});
@@ -61,7 +61,7 @@ class Main {
                 ground.onChange({sinePos: value});
             }.bind(this));
 
-        gui.add(obj, 'numPoints').min(32).max(1024).step(1)
+        gui.add(obj, 'numPoints').min(128).max(1024).step(1)
             .onChange(function(value) {
                 // Fires on every change, drag, keypress, etc.
                 ground.onChange({numPoints: value});
@@ -79,5 +79,13 @@ class Main {
                 ground.onChange({height: value});
             }.bind(this));
 
+    }
+
+    FizzyText  () {
+        this.message = 'dat.gui';
+        this.speed = 0.8;
+        this.displayOutline = false;
+        this.explode = function() { ... };
+        // Define render logic ...
     }
 }

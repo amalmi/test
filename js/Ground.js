@@ -40,25 +40,19 @@ class Ground {
             }
             let p = (this.points.length / 2 + this.hero.xPos);
                 p = parseInt(p);
-            this.hero.x = this.points[p].x * this.scale + this.snakeContainer.x - this.scale * (this.heightTexture / 2 ) * Math.cos((p * (Math.PI / this.numPoints)) + this.sinePos);
-            this.hero.y = this.points[p].y * this.scale + this.snakeContainer.y - this.scale * (this.heightTexture / 2 ) * Math.sin((p * (Math.PI / this.numPoints)) + this.sinePos);
-            this.hero.scale.set(this.scale, this.scale);
-/*
-            if (this.hero.xPos > 0) {
-                this.hero.rotation = Math.sin(p *  (Math.PI / this.numPoints) + count);
-            } else {
-                this.hero.rotation = Math.sin(p *  -(Math.PI / this.numPoints) + count) ;
-            }
-            */
-            this.hero.rotation = -Math.cos((p * (Math.PI / this.numPoints)) + this.sinePos);
-//            this.hero.rotation = Math.sin(p *  -(Math.PI / this.numPoints) + count) + this.sinePos - Math.PI/3;
-//            this.hero.rotation = Math.sin((p * ((Math.PI *(this.curveAngle -0.3)) / this.numPoints))) ;
-/*
-            for(let i = 0; i < points.length; i++){
-                points[i].y = 256 * Math.cos(count * i);
-                points[i].x = 256 * Math.sin(count * i) * 4;
-            } */
+//            this.hero.x = this.points[p].x * this.scale + this.snakeContainer.x - this.scale * (this.heightTexture / 2 ) * Math.cos((p * (Math.PI / this.numPoints)) + this.sinePos);
+//            this.hero.y = this.points[p].y * this.scale + this.snakeContainer.y - this.scale * (this.heightTexture / 2 ) * Math.sin((p * (Math.PI / this.numPoints)) + this.sinePos);
+            this.hero.y = Math.sin((p * (Math.PI / this.numPoints) + this.sinePos)) * this.ropeLength * this.curve;
+            this.hero.x = p * this.ropeLength;
+            console.log("hero: x ")
+            var c = this.ropeLength / (this.ropeLength * this.curve);
+
+//            this.hero.rotation = -Math.cos( ( p * (Math.PI / this.numPoints)) + this.sinePos) ;
+            this.hero.rotation = Math.atan2(this.points[p].x, this.points[p].y);
+//            this.hero.scale.set(this.scale, this.scale);
+
             this.hero.update();
+
             let l = (this.points.length / 2 - 4).toFixed(0);
             if (this.hero.xPos > l) {
                 this.hero.xPos = parseInt(l);
@@ -87,7 +81,8 @@ class Ground {
             //        this.snakeContainer.x = -this.app.width / 2;
             this.snakeContainer.y = this.app.renderer.height * 2;
             this.app.stage.addChild(this.snakeContainer);
-            this.app.stage.addChild(this.hero);
+//            this.app.stage.addChild(this.hero);
+            this.snakeContainer.alpha = 0.95;
         }
         // build a rope!
         this.ropeLength = (this.widthTexture)/ this.numPoints;
@@ -101,6 +96,7 @@ class Ground {
 
         this.snakeContainer.removeChildren();
         this.snakeContainer.addChild(this.strip);
+        this.snakeContainer.addChild(this.hero);
     }
 
     onChange({speed, scale, curve, x, y, sinePos, numPoints, width, height}) {

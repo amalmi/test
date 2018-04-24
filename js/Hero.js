@@ -7,7 +7,6 @@ class Hero extends PIXI.Sprite {
 
         this.xPos = 0;
         this.yPos = 0;
-        this.addChild(this.sprite);
 
         //Capture the keyboard arrow keys
         this.left = this.keyboard(37);
@@ -15,22 +14,30 @@ class Hero extends PIXI.Sprite {
         this.right = this.keyboard(39);
         this.down = this.keyboard(40);
 
-/*
-        //Left arrow key `press` method
-        left.press = () => {
-        };
+        let layer = new PIXI.display.Layer();
+        layer.useRenderTexture = true;
+        // this flag is required, or you'll get
+        // "glDrawElements: Source and destination textures of the draw are the same."
+        layer.useDoubleBuffer = true;
 
-        left.release = () => {
+        let trailSprite = new PIXI.Sprite(layer.getRenderTexture());
+        trailSprite.alpha = 1;
 
-        };
+        layer.addChild(trailSprite);
 
-        right.press = () => {
-        };
+        let stage = new PIXI.display.Stage();
+//        app.stage.addChild(layer);
+        stage.addChild(layer);
+        let showLayer = new PIXI.Sprite(layer.getRenderTexture());
+//        app.stage.addChild(showLayer);
+        stage.addChild(showLayer);
 
-        right.release = () => {
 
-        }
-        */
+        layer.addChild(new PIXI.Sprite(new PIXI.Texture.fromImage("flowerTop.png")));
+        this.addChild(stage);
+
+        this.addChild(this.sprite);
+
     }
 
     update() {
